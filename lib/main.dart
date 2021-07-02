@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:youcanthide/presentation/home_page/homepage.dart';
+import 'presentation/screens/home_page/homepage.dart';
 import 'utils/envConfig.dart';
 import 'utils/size_config.dart';
 
