@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:youcanthide/presentation/home_page/homepage.dart';
-
-import 'utils/env_config.dart';
+import 'utils/envConfig.dart';
 import 'utils/size_config.dart';
 
 void main() {
@@ -27,6 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Builder(builder: (BuildContext context) {
+
         BuildEnvironment.init(flavor: BuildFlavor.development);
         final Size size = MediaQuery.of(context).size;
         SizeConfig.init(context,
@@ -36,4 +36,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
