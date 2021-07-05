@@ -7,12 +7,20 @@ Future registerFire(
   String password,
 ) async {
   try {
-    var user = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: model.email, password: password);
-    await FirebaseFirestore.instance
+    var test = await FirebaseFirestore.instance
         .collection("users")
-        .doc(user.user.uid)
-        .set(model.toJson());
+        .where("username", isEqualTo: model.username)
+        .get();
+    if (test.docs.isEmpty) {
+      var user = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: model.email, password: password);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.user.uid)
+          .set(model.toJson());
+    } else {
+      throw ("This username has already been taken");
+    }
   } catch (e) {
     throw Exception(e);
   }

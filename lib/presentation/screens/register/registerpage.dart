@@ -1,4 +1,3 @@
-import 'dart:html';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:youcanthide/domain/usermodel/user.dart';
@@ -24,15 +23,17 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
         child: Form(
           key: _key,
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.baseline,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              YMargin(20),
+              YMargin(150),
               XTextField(
                   controller: userName,
                   hintText: "UserName",

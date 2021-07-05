@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:youcanthide/presentation/view_model/register_view_model/registervm.dart';
+
 import 'presentation/screens/home_page/homepage.dart';
+import 'presentation/screens/register/registerpage.dart';
 import 'utils/envConfig.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'utils/size_config.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider<RegisterVM>(create: (_) => RegisterVM()),
+        //ChangeNotifierProvider<LoginVM>(create: (_) => LoginVM()),
+      ],
+      child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +38,6 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: Builder(builder: (BuildContext context) {
-
         BuildEnvironment.init(flavor: BuildFlavor.development);
         final Size size = MediaQuery.of(context).size;
         SizeConfig.init(context,
