@@ -13,15 +13,23 @@ Future checkForChat({String userName, String contactName}) async {
       .where("channel", isEqualTo: channel2).get();
 
     if(test.docs.isEmpty && test2.docs.isEmpty){
-      var testt = FirebaseFirestore.instance.collection("chats").doc(channel1);
-      return testt.id;
+      await FirebaseFirestore.instance.collection("chats").doc(channel1).set({
+        "welcome" : "Don't give away precious info"
+      });
+      var test = await FirebaseFirestore.instance.collection("chats").doc(channel1).get();
+      print("o");
+      return test.id;
+
+
     }
 
   else{
     if(test.docs.isNotEmpty){
+      print("1");
       return test.docs.first.id;
     }
     else if(test2.docs.isNotEmpty){
+      print("2");
       return test2.docs.first.id;
     }
   }

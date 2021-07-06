@@ -23,16 +23,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_swiper:
   firebase_auth:
-  firebase_storage:
   cloud_firestore:
+  http:
+  provider:
+  shared_preferences:
+  sqflite:
+  path_provider:
+  image_picker:
+  firebase_storage:
   firebase_database: ^7.1.1
-  provider: 
+  flutter_staggered_grid_view:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_swiper:
+
 
 dev_dependencies:
   flutter_test:

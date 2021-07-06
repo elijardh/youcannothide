@@ -1,35 +1,41 @@
+// @dart=2.9
 import 'package:flutter/material.dart';
 
-void navigateReplace(BuildContext context, Widget route, {bool isDialog = false}) =>
-    Navigator.pushReplacement(context, MaterialPageRoute<dynamic>(
+void navigateReplace(BuildContext context, Widget route,
+        {bool isDialog = false}) =>
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<dynamic>(
         fullscreenDialog: isDialog,
         builder: (BuildContext context) => route,
       ),
     );
 
 void navigate(BuildContext context, Widget route, {bool isDialog = false}) =>
-    Navigator.push(context, MaterialPageRoute<dynamic>(
+    Navigator.push(
+      context,
+      MaterialPageRoute<dynamic>(
         fullscreenDialog: isDialog,
         builder: (BuildContext context) => route,
       ),
     );
 
 void pushUntil(BuildContext context, Widget route) {
-  Navigator.pushAndRemoveUntil(context, MaterialPageRoute<dynamic>(
-    builder: (BuildContext context) {
+  Navigator.pushAndRemoveUntil(context,
+      MaterialPageRoute<dynamic>(builder: (BuildContext context) {
     return route;
   }), (Route<dynamic> route) => false);
-
 }
 
 void popToFirst(BuildContext context) =>
     Navigator.of(context).popUntil((Route<dynamic> route) => route.isFirst);
 
-
 void popView(BuildContext context) => Navigator.pop(context);
 
 dynamic navigateTransparentRoute(BuildContext context, Widget route) {
-  return Navigator.push(context, TransparentRoute(
+  return Navigator.push(
+    context,
+    TransparentRoute(
       builder: (BuildContext context) => route,
     ),
   );

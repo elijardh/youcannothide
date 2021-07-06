@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:youcanthide/presentation/view_model/login_vm/loginvm.dart';
 import 'package:youcanthide/utils/size_config.dart';
@@ -24,11 +25,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
         child: Form(
           key: _key,
           child: Column(
+            //crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
+              //YMargin(100),
               XTextField(controller: userName, hintText: "User Name", validator: (value){
                 if(value.isEmpty){
                   return "Type in a User Name";

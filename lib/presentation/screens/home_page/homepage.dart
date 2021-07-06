@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:youcanthide/data/firebase/check_for_chat.dart';
 import 'package:youcanthide/data/firebase/current_user.dart';
 import 'package:youcanthide/domain/usermodel/user.dart';
+import 'package:youcanthide/presentation/screens/chat/chat.dart';
+import 'package:youcanthide/utils/navigator.dart';
 import 'package:youcanthide/widgets/texts.dart';
 
 
@@ -38,7 +40,7 @@ class _HomePageState extends State<HomePage> {
                   onTap: () async{
                     UserModel userModel = await currentUser();
                     checkForChat(contactName: list[index].username,userName: userModel.username).then((value) {
-
+                      navigate(context, ChatPage(id: value,));
                     });
                   },
                 );

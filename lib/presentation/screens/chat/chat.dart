@@ -22,9 +22,10 @@ class _ChatPageState extends State<ChatPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("chats").doc(widget.id).snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot){
+          String wel = snapshot.data.get("hello");
           return Container(
             child: Center(
-              child: Text("It's a start"),
+              child: Text(wel),
             ),
           );
         },
