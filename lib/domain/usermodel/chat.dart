@@ -14,7 +14,7 @@ class ChatModel {
    Map<String, dynamic>toJson(){
     Map<String, dynamic> data = Map<String, dynamic>();
     data["message"] = this.message;
-    data["user"] = this.message;
+    data["user"] = this.user;
     return data;
   }
 
