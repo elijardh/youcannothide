@@ -20,6 +20,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController userName = TextEditingController();
   TextEditingController password = TextEditingController();
 
+  bool obscure = true;
   GlobalKey<FormState> _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,15 @@ class _LoginPageState extends State<LoginPage> {
               XTextField(
                 controller: password,
                 hintText: "Password",
+                obscureText: obscure,
+                suffix: InkWell(
+                  onTap: (){
+                    setState(() {
+                      obscure = !obscure;
+                    });
+                  },
+                  child: Icon(Icons.remove_red_eye_rounded, color: Colors.red,),
+                ),
                 validator: (value){
                   PasswordValidiator.validate(value);
                 },

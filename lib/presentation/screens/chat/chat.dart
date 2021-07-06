@@ -42,6 +42,7 @@ class _ChatPageState extends State<ChatPage> {
             width: config.sw(300),
             child: XTextField(
                 controller: message,
+                focusedBorderColor: Colors.black,
                 hintText: "Enter message",
                 validator: (val) {
                   if (val.isEmpty) {
@@ -60,8 +61,6 @@ class _ChatPageState extends State<ChatPage> {
             splashColor: Colors.red,
             onPressed: () async {
               var user = await currentUser();
-              print(user.username);
-              print("oh my");
               if (message.text.isNotEmpty) {
                 ChatModel model = ChatModel(
                   user: user.username,
@@ -84,44 +83,48 @@ class _ChatPageState extends State<ChatPage> {
             .doc(widget.id)
             .snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-          String wel = snapshot.data.get("welcome");
-          ChatList list = ChatList.fromJson(snapshot.data.get("chats"));
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 10),
-            height: SizeConfig.screenHeightDp,
-            child: ListView(
-              children: [
-                YMargin(10),
-                Center(child: Text(wel)),
-                YMargin(10),
-                Container(
-                  height: 800,
-                  child: ListView.builder(
-                      itemCount: list.list.length,
-                      itemBuilder: (context, index) {
-                        return Padding(padding: EdgeInsets.only(bottom: 10),
-                        child: index % 2 == 0
-                            ? userMessage(
-                            list.list[index].user, list.list[index].message)
-                            : contactMessage(list.list[index].user,
-                            list.list[index].message),
-                        );
-/*
-                          Align(
-                          alignment: index % 2 == 0 ? Alignment.centerLeft : Alignment.centerRight,
-                          child: SizedBox(
-                            width: 200,
-                            child: ListTile(
-                              title: Text("${list.list[index].message}"),
-                              subtitle: Text("${list.list[index].user}"),
-                            ),
-                          ),
-                        );*/
-                      }),
-                )
-              ],
-            ),
-          );
+
+          if (snapshot.hasData){
+            String wel = snapshot.data.get("welcome");
+            ChatList list = ChatList.fromJson(snapshot.data.get("chats"));
+            if(list.list.isNotEmpty){
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                height: SizeConfig.screenHeightDp,
+                child: ListView(
+                  children: [
+                    YMargin(10),
+                    Center(child: Text(wel)),
+                    YMargin(10),
+                    Container(
+                      height: 800,
+                      child: ListView.builder(
+                          itemCount: list.list.length,
+                          itemBuilder: (context, index) {
+                            return Padding(padding: EdgeInsets.only(bottom: 10),
+                              child: index % 2 == 0
+                                  ? userMessage(
+                                  list.list[index].user, list.list[index].message)
+                                  : contactMessage(list.list[index].user,
+                                  list.list[index].message),
+                            );
+                          }),
+                    )
+                  ],
+                ),
+              );
+            }
+            else{
+              return Container(
+                child: Center(
+                  child: Text("Send the first Message"),
+                ),
+              );
+            }
+
+          }
+          return Container();
+
         },
       ),
     );

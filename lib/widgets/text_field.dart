@@ -18,12 +18,14 @@ class XTextField extends StatelessWidget {
   final Color normalTextColor;
   final bool autoFocus;
   final bool isEnabled;
+  final Widget suffix;
 
   XTextField({
     @required this.controller,
     @required this.hintText,
     @required this.validator,
     this.textInputAction,
+    this.suffix,
     this.obscureText,
     this.fillColor,
     this.keyboardType,
@@ -51,10 +53,12 @@ class XTextField extends StatelessWidget {
           color: normalTextColor ?? Colors.black),
       obscureText: obscureText ?? false,
       controller: controller,
+
       textInputAction: textInputAction ?? TextInputAction.done,
       keyboardType: keyboardType ?? TextInputType.text,
       validator: validator,
       decoration: InputDecoration(
+        suffix: suffix,
         hintText: hintText,
         hintStyle: Theme.of(context).textTheme.bodyText1.copyWith(
             fontSize: sizeConfig.sp(15), color: hintTextColor ?? Colors.grey),
