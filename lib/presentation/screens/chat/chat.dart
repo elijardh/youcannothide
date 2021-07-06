@@ -1,6 +1,13 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:youcanthide/domain/usermodel/chat.dart';
+import 'package:youcanthide/presentation/view_model/chat_vm/chatvm.dart';
 import 'package:youcanthide/widgets/text_field.dart';
+import 'package:provider/provider.dart';
+import 'package:youcanthide/widgets/y_margin.dart';
 
 class ChatPage extends StatefulWidget {
   final String id;
@@ -13,6 +20,12 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<ChatVM>().getChatList(widget.id);
+  }
   final TextEditingController message = TextEditingController();
   GlobalKey<FormState> _key = GlobalKey();
   @override
@@ -34,7 +47,10 @@ class _ChatPageState extends State<ChatPage> {
               splashColor: Colors.red,
               onPressed: (){
                 if(_key.currentState.validate()){
-
+                  ChatModel model = ChatModel(
+                    user: FirebaseAuth.instance.currentUser.uid,
+                    message: message.text,
+                  );
                 }
               },
             ),
@@ -49,10 +65,16 @@ class _ChatPageState extends State<ChatPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("chats").doc(widget.id).snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot){
-          String wel = snapshot.data.get("hello");
+          String wel = snapshot.data.get("welcome");
           return Container(
-            child: Center(
-              child: Text(wel),
+            child: ListView(
+              children: [
+                Text(wel),
+                YMargin(10),
+                ListView.builder(itemBuilder: (context, index){
+                  return ListTile();
+                })
+              ],
             ),
           );
         },

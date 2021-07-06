@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:youcanthide/domain/usermodel/chat_list.dart';
 
 Future checkForChat({String userName, String contactName}) async {
   String channel1 = userName + contactName;
   String channel2 = contactName + userName;
+  ChatList list = ChatList();
   var test = await  FirebaseFirestore.instance
       .collection("chats")
       .where("channel", isEqualTo: channel1).get();
@@ -14,7 +16,9 @@ Future checkForChat({String userName, String contactName}) async {
 
     if(test.docs.isEmpty && test2.docs.isEmpty){
       await FirebaseFirestore.instance.collection("chats").doc(channel1).set({
-        "welcome" : "Don't give away precious info"
+        "welcome" : "Don't give away precious info",
+        "chats" : list.toJson(list.list),
+        
       });
       var test = await FirebaseFirestore.instance.collection("chats").doc(channel1).get();
       print("o");
