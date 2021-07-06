@@ -6,21 +6,25 @@ import 'package:youcanthide/domain/usermodel/chat_list.dart';
 
 class ChatVM extends ChangeNotifier {
   String idd;
-  ChatList chatList = ChatList();
+  List<ChatModel> list = [];
 
   Future getChatList(String id) async {
     idd = id;
     var temp =
         await FirebaseFirestore.instance.collection("chats").doc("id").get();
-    chatList = ChatList.fromJson(temp.get("chats"));
+    ChatList chatList = ChatList.fromJson(temp.get("chats"));
+    list = chatList.list;
   }
 
   Future updateChats(ChatModel model, BuildContext context) {
-    chatList.list.add(model);
+    list.add(model);
+    ChatList lis = ChatList(
+      list: list,
+    );
     FirebaseFirestore.instance
         .collection("chats")
         .doc(idd)
-        .update({"chats": chatList.toJson(chatList.list)}).then((value) {
+        .update({"chats": lis.toJson(lis.list)}).then((value) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("Message Sent")));
     }).onError((error, stackTrace) {

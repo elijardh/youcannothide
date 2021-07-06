@@ -3,9 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:youcanthide/presentation/screens/login/loginpage.dart';
 import 'package:youcanthide/presentation/view_model/login_vm/loginvm.dart';
 import 'package:youcanthide/presentation/view_model/register_view_model/registervm.dart';
-
-import 'presentation/screens/home_page/homepage.dart';
-
+import 'presentation/view_model/chat_vm/chatvm.dart';
 import 'utils/envConfig.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'utils/size_config.dart';
@@ -16,6 +14,7 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider<RegisterVM>(create: (_) => RegisterVM()),
     ChangeNotifierProvider<LoginVM>(create: (_) => LoginVM()),
+    ChangeNotifierProvider<ChatVM>(create: (_)=>ChatVM())
     //ChangeNotifierProvider<LoginVM>(create: (_) => LoginVM()),
   ], child: MyApp()));
 }

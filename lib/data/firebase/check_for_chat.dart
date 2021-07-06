@@ -17,7 +17,7 @@ Future checkForChat({String userName, String contactName}) async {
     if(test.docs.isEmpty && test2.docs.isEmpty){
       await FirebaseFirestore.instance.collection("chats").doc(channel1).set({
         "welcome" : "Don't give away precious info",
-        "chats" : list.toJson(list.list),
+        "chats" : []
         
       });
       var test = await FirebaseFirestore.instance.collection("chats").doc(channel1).get();
