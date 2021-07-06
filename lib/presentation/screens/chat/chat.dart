@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:youcanthide/domain/usermodel/chat.dart';
+import 'package:youcanthide/domain/usermodel/chat_list.dart';
 import 'package:youcanthide/presentation/view_model/chat_vm/chatvm.dart';
 import 'package:youcanthide/widgets/text_field.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +52,7 @@ class _ChatPageState extends State<ChatPage> {
                     user: FirebaseAuth.instance.currentUser.uid,
                     message: message.text,
                   );
+                  context.read<ChatVM>().updateChats(model, context);
                 }
               },
             ),
@@ -66,13 +68,19 @@ class _ChatPageState extends State<ChatPage> {
         stream: FirebaseFirestore.instance.collection("chats").doc(widget.id).snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot){
           String wel = snapshot.data.get("welcome");
+          ChatList list =  ChatList.fromJson(snapshot.data.get("chats"));
           return Container(
             child: ListView(
               children: [
                 Text(wel),
                 YMargin(10),
-                ListView.builder(itemBuilder: (context, index){
-                  return ListTile();
+                ListView.builder(
+                    itemCount: list.list.length,
+                    itemBuilder: (context, index){
+                  return ListTile(
+                    title: Text("${list.list[index].message}"),
+                    subtitle: Text("${list.list[index].user}"),
+                  );
                 })
               ],
             ),
