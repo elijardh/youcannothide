@@ -14,6 +14,8 @@ class ChatVM extends ChangeNotifier {
         await FirebaseFirestore.instance.collection("chats").doc("id").get();
     ChatList chatList = ChatList.fromJson(temp.get("chats"));
     list = chatList.list;
+
+    print(list[0].message);
   }
 
   Future updateChats(ChatModel model, BuildContext context) {

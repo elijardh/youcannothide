@@ -6,15 +6,14 @@ Future checkForChat({String userName, String contactName}) async {
   String channel2 = contactName + userName;
   ChatList list = ChatList();
   var test = await  FirebaseFirestore.instance
-      .collection("chats")
-      .where("channel", isEqualTo: channel1).get();
+      .collection("chats").doc(channel1).get();
 
 
   var test2 = await FirebaseFirestore.instance
       .collection("chats")
-      .where("channel", isEqualTo: channel2).get();
+      .doc(channel2).get();
 
-    if(test.docs.isEmpty && test2.docs.isEmpty){
+    if(!test.exists && !test2.exists){
       await FirebaseFirestore.instance.collection("chats").doc(channel1).set({
         "welcome" : "Don't give away precious info",
         "chats" : []
@@ -28,13 +27,13 @@ Future checkForChat({String userName, String contactName}) async {
     }
 
   else{
-    if(test.docs.isNotEmpty){
+    if(test.exists){
       print("1");
-      return test.docs.first.id;
+      return test.id;
     }
-    else if(test2.docs.isNotEmpty){
+    else if(test2.exists){
       print("2");
-      return test2.docs.first.id;
+      return test2.id;
     }
   }
 }

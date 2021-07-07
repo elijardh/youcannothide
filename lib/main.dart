@@ -4,6 +4,7 @@ import 'package:youcanthide/presentation/screens/login/loginpage.dart';
 import 'package:youcanthide/presentation/screens/status/status.dart';
 import 'package:youcanthide/presentation/view_model/login_vm/loginvm.dart';
 import 'package:youcanthide/presentation/view_model/register_view_model/registervm.dart';
+import 'presentation/screens/home_page/homepage.dart';
 import 'presentation/view_model/chat_vm/chatvm.dart';
 import 'utils/envConfig.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         final Size size = MediaQuery.of(context).size;
         SizeConfig.init(context,
             width: size.width, height: size.height, allowFontScaling: true);
-        return const StatusPage();
+        return const LoginPage();
       }),
     );
   }
