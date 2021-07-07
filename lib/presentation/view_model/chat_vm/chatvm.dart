@@ -8,6 +8,9 @@ class ChatVM extends ChangeNotifier {
   String idd;
   List<ChatModel> list = [];
 
+  Future clearChat() async{
+    list.clear();
+  }
   Future getChatList(String id) async {
     idd = id;
     var temp =

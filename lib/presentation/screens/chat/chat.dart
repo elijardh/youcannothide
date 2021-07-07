@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:youcanthide/data/firebase/current_user.dart';
 import 'package:youcanthide/domain/usermodel/chat.dart';
 import 'package:youcanthide/domain/usermodel/chat_list.dart';
+import 'package:youcanthide/domain/usermodel/user.dart';
 import 'package:youcanthide/presentation/view_model/chat_vm/chatvm.dart';
 import 'package:youcanthide/presentation/views/chat_widget.dart';
 import 'package:youcanthide/utils/size_config.dart';
@@ -20,11 +21,22 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
+  ScrollController controller = ScrollController();
+
+  UserModel user = UserModel();
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ChatVM>().getChatList(widget.id);
+    context.read<ChatVM>().clearChat().then((value) {
+      context.read<ChatVM>().getChatList(widget.id);
+    });
+
+    getUser();
+  }
+
+  getUser() async{
+    user = await currentUser();
   }
 
   final TextEditingController message = TextEditingController();
@@ -60,6 +72,10 @@ class _ChatPageState extends State<ChatPage> {
             splashRadius: 10,
             splashColor: Colors.red,
             onPressed: () async {
+/*              controller.animateTo(
+                  controller.position.maxScrollExtent,
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.easeOut);*/
               var user = await currentUser();
               if (message.text.isNotEmpty) {
                 ChatModel model = ChatModel(
@@ -83,48 +99,48 @@ class _ChatPageState extends State<ChatPage> {
             .doc(widget.id)
             .snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
-          if (snapshot.hasData){
+          if (snapshot.hasData) {
             String wel = snapshot.data.get("welcome");
             ChatList list = ChatList.fromJson(snapshot.data.get("chats"));
-            if(list.list.isNotEmpty){
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 10),
-                height: SizeConfig.screenHeightDp,
+
+            if (list.list.isNotEmpty) {
+              return SingleChildScrollView(
+                controller: controller,
                 child: ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  physics: NeverScrollableScrollPhysics(),
                   children: [
                     YMargin(10),
                     Center(child: Text(wel)),
                     YMargin(10),
-                    Container(
-                      height: 800,
-                      child: ListView.builder(
-                          itemCount: list.list.length,
-                          itemBuilder: (context, index) {
-                            return Padding(padding: EdgeInsets.only(bottom: 10),
-                              child: index % 2 == 0
-                                  ? userMessage(
-                                  list.list[index].user, list.list[index].message)
-                                  : contactMessage(list.list[index].user,
-                                  list.list[index].message),
-                            );
-                          }),
-                    )
+                    ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        itemCount: list.list.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: EdgeInsets.only(bottom: 10),
+                            child: list.list[index].user == user.username
+                                ? userMessage(list.list[index].user,
+                                    list.list[index].message)
+                                : contactMessage(list.list[index].user,
+                                    list.list[index].message),
+                          );
+                        })
                   ],
                 ),
               );
-            }
-            else{
+            } else {
               return Container(
                 child: Center(
                   child: Text("Send the first Message"),
                 ),
               );
             }
-
           }
           return Container();
-
         },
       ),
     );

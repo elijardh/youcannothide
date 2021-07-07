@@ -14,7 +14,7 @@ Widget userMessage(String user, String message){
       children: [
         Text(message, style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
         YMargin(5),
-        Text(user),
+        //Text(user),
       ],
     ),
   );
@@ -30,7 +30,7 @@ Widget contactMessage(String user, String message){
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Text(message,style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.bold),),
-        Text(user),
+        //Text(user),
       ],
     ),
   );
