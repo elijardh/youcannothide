@@ -22,8 +22,6 @@ Future checkForChat({String userName, String contactName}) async {
       var test = await FirebaseFirestore.instance.collection("chats").doc(channel1).get();
       print("o");
       return test.id;
-
-
     }
 
   else{
