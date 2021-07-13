@@ -28,15 +28,13 @@ class _ChatPageState extends State<ChatPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<ChatVM>().clearChat().then((value) {
-      context.read<ChatVM>().getChatList(widget.id);
-    });
-
+    context.read<ChatVM>().realList(widget.id);
     getUser();
   }
 
-  getUser() async{
+  getUser() async {
     user = await currentUser();
+    print(user.username);
   }
 
   final TextEditingController message = TextEditingController();
@@ -76,7 +74,7 @@ class _ChatPageState extends State<ChatPage> {
                   controller.position.maxScrollExtent,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeOut);*/
-              var user = await currentUser();
+              //var user = await currentUser();
               if (message.text.isNotEmpty) {
                 ChatModel model = ChatModel(
                   user: user.username,
@@ -103,7 +101,8 @@ class _ChatPageState extends State<ChatPage> {
             String wel = snapshot.data.get("welcome");
             ChatList list = ChatList.fromJson(snapshot.data.get("chats"));
 
-            if (list.list.isNotEmpty) {
+            if (list.list.isNotEmpty && user != null) {
+              print(user.username);
               return SingleChildScrollView(
                 controller: controller,
                 child: ListView(

@@ -16,7 +16,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   TextEditingController userName = TextEditingController();
   TextEditingController password = TextEditingController();
 
@@ -34,44 +33,55 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               //YMargin(100),
-              XTextField(controller: userName, hintText: "User Name", validator: (value){
-                if(value.isEmpty){
-                  return "Type in a User Name";
-                }
-                return null;
-              }),
-              YMargin(30),
+              XTextField(
+                  controller: userName,
+                  hintText: "User Name",
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return "Type in a User Name";
+                    }
+                    return null;
+                  }),
+              //YMargin(30),
               XTextField(
                 controller: password,
                 hintText: "Password",
                 obscureText: obscure,
                 suffix: InkWell(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
                       obscure = !obscure;
                     });
                   },
-                  child: Icon(Icons.remove_red_eye_rounded, color: Colors.red,),
+                  child: Icon(
+                    Icons.remove_red_eye_rounded,
+                    color: Colors.red,
+                  ),
                 ),
-                validator: (value){
+                validator: (value) {
                   PasswordValidiator.validate(value);
                 },
               ),
               YMargin(30),
-              XButton(onClick: (){
-                if(_key.currentState.validate()){
-                  String pass = password.text;
-                  String email = userName.text;
-                  context.read<LoginVM>().login(email, pass, context).onError((error, stackTrace) {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("${error.toString()}")));
-                  });
-                }
-
-              }, text: "LOGIN", width: SizeConfig.screenWidthDp,
-              buttonColor: Colors.red.withOpacity(0.5),
+              XButton(
+                onClick: () {
+                  if (_key.currentState.validate()) {
+                    String pass = password.text;
+                    String email = userName.text;
+                    context
+                        .read<LoginVM>()
+                        .login(email, pass, context)
+                        .onError((error, stackTrace) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("${error.toString()}")));
+                    });
+                  }
+                },
+                text: "LOGIN",
+                width: SizeConfig.screenWidthDp,
+                buttonColor: Colors.red.withOpacity(0.5),
                 isLoading: context.watch<LoginVM>().log,
-
-              radius: 5,
+                radius: 5,
                 textColor: Colors.white,
                 fontWeight: FontWeight.bold,
               ),

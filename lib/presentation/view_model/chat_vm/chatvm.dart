@@ -8,17 +8,26 @@ class ChatVM extends ChangeNotifier {
   String idd;
   List<ChatModel> list = [];
 
-  Future clearChat() async{
+  Future clearChat() async {
     list.clear();
   }
+
+  realList(String id) {
+    clearChat().then((value) async {
+      await getChatList(id);
+    });
+  }
+
   Future getChatList(String id) async {
     idd = id;
     var temp =
-        await FirebaseFirestore.instance.collection("chats").doc("id").get();
-    ChatList chatList = ChatList.fromJson(temp.get("chats"));
-    list = chatList.list;
+        await FirebaseFirestore.instance.collection("chats").doc(id).get();
 
-    print(list[0].message);
+    if (temp.exists) {
+      var tempChat = temp.get("chats");
+      ChatList chatList = ChatList.fromJson(tempChat);
+      list = chatList.list;
+    }
   }
 
   Future updateChats(ChatModel model, BuildContext context) {
